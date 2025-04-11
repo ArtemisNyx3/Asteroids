@@ -36,11 +36,18 @@ def main():
     while(running):
         screen.fill("black")
         updatable.update(dt)
-        for obj in asteroids:
-            if obj.detectCollision(player):
+
+        # Collision detection
+        for asteroid in asteroids:
+            if asteroid.detectCollision(player):
                 print("Game Over!!!")
                 running = False
                 break
+            for shot in shots:
+                if asteroid.detectCollision(shot):
+                    asteroid.kill()
+                    shot.kill()
+
         for obj in drawable:
             obj.draw(screen)
         pygame.event.pump()
