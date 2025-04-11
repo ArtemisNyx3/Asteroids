@@ -14,7 +14,9 @@ def main():
     # Game Loop
     while(True):
         screen.fill("black")
+        player.update(dt)
         player.draw(screen)
+        pygame.event.pump()
         pygame.display.flip() # Refresh Screen
         dt = clock.tick(60)/1000
         pass
