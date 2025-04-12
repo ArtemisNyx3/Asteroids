@@ -31,29 +31,36 @@ def main():
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
     asteroidField = AsteroidField()
 
+    game_state = GameState.START_SCREEN
     # Game Loop
     running = True
     while(running):
-        screen.fill("black")
-        updatable.update(dt)
+        if game_state == GameState.START_SCREEN:
+            pass
 
-        # Collision detection
-        for asteroid in asteroids:
-            if asteroid.detectCollision(player):
-                print("Game Over!!!")
-                running = False
-                break
-            for shot in shots:
-                if asteroid.detectCollision(shot):
-                    asteroid.split()
-                    shot.kill()
+        if game_state == GameState.RUNNING:
+            screen.fill("black")
+            updatable.update(dt)
 
-        for obj in drawable:
-            obj.draw(screen)
-        pygame.event.pump()
-        pygame.display.flip() # Refresh Screen
-        dt = clock.tick(60)/1000
-     
+            # Collision detection
+            for asteroid in asteroids:
+                if asteroid.detectCollision(player):
+                    print("Game Over!!!")
+                    game_state = GameState.GAME_OVER
+                    break
+                for shot in shots:
+                    if asteroid.detectCollision(shot):
+                        asteroid.split()
+                        shot.kill()
+
+            for obj in drawable:
+                obj.draw(screen)
+            pygame.event.pump()
+            pygame.display.flip() # Refresh Screen
+            dt = clock.tick(60)/1000
+        
+        if game_state == GameState.GAME_OVER:
+            pass
 
 if __name__ == "__main__":
     main()
